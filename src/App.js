@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
+import HomeView from './containers/HomeView';
+import NavigationView from './containers/NavigationView';
 
 class App extends Component {
 	render() {
-		return <div>APP</div>;
+		return (
+			<div>
+				<NavigationView />
+				<HomeView />
+			</div>
+		);
 	}
 }
 
