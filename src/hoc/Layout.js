@@ -1,11 +1,10 @@
 import React from 'react';
-import NavView from '../../containers/NavigationView';
+import Navigation from '../components/Navigation';
 
 const Layout = props => {
 	return (
 		<div>
-			<NavView />
-			{/* {props.children} */}
+			<div className="pusher">{props.children}</div>
 		</div>
 	);
 };
