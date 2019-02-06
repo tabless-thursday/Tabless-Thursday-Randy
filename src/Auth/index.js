@@ -13,16 +13,15 @@ export default function(WrappedComponent, reload) {
 		}
 
 		componentWillReceiveProps(nextProps) {
-			console.log(nextProps);
 			this.setState({ loading: false });
 
-			if (!nextProps.user.currentUser.isAuth) {
+			if (!nextProps.currentUser) {
 				if (reload) {
 					this.props.history.push('/login');
 				}
 			} else {
 				if (reload === false) {
-					this.props.history.push('/user');
+					this.props.history.push('/');
 				}
 			}
 		}
@@ -36,6 +35,7 @@ export default function(WrappedComponent, reload) {
 	const mapStateToProps = state => {
 		return {
 			users: state.userReducer.users,
+			currentUser: state.userReducer.currentUsers,
 		};
 	};
 	return connect(
