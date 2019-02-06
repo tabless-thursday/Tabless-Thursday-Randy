@@ -6,8 +6,8 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import Routes from './routes/routes';
 import rootReducer from './store/reducers';
+import Routes from './routes/routes';
 
 const store = createStore(rootReducer, applyMiddleware(thunk, logger));
 

@@ -1,47 +1,45 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
+import { auth } from '../store/actions';
 import { connect } from 'react-redux';
 
-const Auth = App => NotAuthorized =>
-	class extends Component {
+export default function(WrappedComponent, reload) {
+	class Auth extends Component {
 		state = {
-			loggedIn: null,
+			loading: false,
 		};
 
-		componentDidMount() {
-			if (localStorage.getItem('user')) {
-				this.setState({
-					loggedIn: true,
-				});
-			} else {
-				this.setState({
-					loggedIn: false,
-				});
-			}
+		componentWillMount() {
+			this.props.auth();
 		}
 
-		loginFailed = () => {
-			if (this.state.loggedIn === false) {
-				return <NotAuthorized />;
-			} else {
-				this.props.history.push('/');
-			}
-		};
+		componentWillReceiveProps(nextProps) {
+			console.log(nextProps);
+			this.setState({ loading: false });
 
+			if (!nextProps.user.currentUser.isAuth) {
+				if (reload) {
+					this.props.history.push('/login');
+				}
+			} else {
+				if (reload === false) {
+					this.props.history.push('/user');
+				}
+			}
+		}
 		render() {
-			return this.loginFailed();
+			if (this.state.loading) {
+				return <div>Loading...</div>;
+			}
+			return <WrappedComponent {...this.props} users={this.props.users} />;
 		}
+	}
+	const mapStateToProps = state => {
+		return {
+			users: state.userReducer.users,
+		};
 	};
-
-const mapStateToProps = state => {
-	return {
-		users: state.tabsReducer.users,
-	};
-};
-
-export default withRouter(
-	connect(
+	return connect(
 		mapStateToProps,
-		{},
-	)(Auth),
-);
+		{ auth },
+	)(Auth);
+}

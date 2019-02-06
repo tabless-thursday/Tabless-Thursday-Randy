@@ -8,6 +8,31 @@ export const addTab = tab => {
 	};
 };
 
+//  ==============USER===============
+
+export const loginUser = stats => {
+	localStorage.setItem('user', stats.username);
+	return {
+		type: 'USER_LOGIN',
+		payload: stats,
+	};
+};
+
+export const auth = () => {
+	const currentUser = localStorage.getItem('user');
+	return {
+		type: 'USER_AUTH',
+		payload: currentUser,
+	};
+};
+
+export const userRegister = userStats => {
+	return {
+		type: 'USER_REGISTER',
+		payload: userStats,
+	};
+};
+
 export const addUser = user => {
 	return {
 		type: ADD_USER,

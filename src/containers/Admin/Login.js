@@ -1,33 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { addUser } from '../../store/actions';
+import Auth from '../../Auth';
+import { addUser, loginUser } from '../../store/actions';
 
 class Login extends Component {
 	state = {
 		username: '',
 		password: '',
+		error: '',
+		success: false,
+		enterCredentials: null,
 	};
 
 	handleChanges = event => {
 		this.setState({ [event.target.name]: event.target.value });
 	};
 
-	setUserOnStorage = event => {
+	submitForm = event => {
 		event.preventDefault();
-		const user = this.state.username;
-
-		if (this.state.username) {
-			localStorage.setItem('user', user);
-		} else {
-			return <div>enter credentials</div>;
-		}
+		this.props.loginUser(this.state);
+		this.props.history.push('/');
 	};
 
 	render() {
 		return (
 			<div className="login-page">
-				<form>
+				<form onSubmit={this.submitForm}>
 					<header>Login...</header>
 					<input
 						type="text"
@@ -36,7 +35,7 @@ class Login extends Component {
 						value={this.state.username}
 						onChange={this.handleChanges}
 					/>
-
+					<span>{this.state.enterCredentials}</span>
 					<input
 						type="text"
 						name="password"
@@ -45,7 +44,7 @@ class Login extends Component {
 						onChange={this.handleChanges}
 					/>
 
-					<button onClick={this.setUserOnStorage}>
+					<button type="submit">
 						<strong>LogIn!</strong>
 					</button>
 				</form>
@@ -56,13 +55,13 @@ class Login extends Component {
 
 const mapStateToProps = state => {
 	return {
-		users: state.tabsReducer.users,
+		user: state.userReducer.currentUser,
 	};
 };
 
 export default withRouter(
 	connect(
 		mapStateToProps,
-		{ addUser },
-	)(Login),
+		{ addUser, loginUser },
+	)(Auth(Login)),
 );
