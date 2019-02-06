@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Icon from '@material-ui/core/Icon';
+
+import TextField from '@material-ui/core/TextField';
 import { addTab } from '../../store/actions';
 import { connect } from 'react-redux';
+
+const styles = theme => ({
+	fab: {
+		margin: theme.spacing.unit,
+	},
+	extendedIcon: {
+		marginRight: theme.spacing.unit,
+	},
+});
 
 class TabsInput extends Component {
 	state = {
@@ -27,28 +42,39 @@ class TabsInput extends Component {
 		});
 	};
 	render() {
+		const { classes } = this.props;
 		return (
-			<div>
-				<input
-					type="text"
+			<div style={{ display: 'flex', justifyContent: 'center' }}>
+				<TextField
+					style={{ margin: '15px auto', width: '500px' }}
+					variant="outlined"
+					InputLabelProps={{
+						shrink: true,
+					}}
 					name="tabURL"
 					value={this.state.tabURL}
 					onChange={this.handleInputChange}
 					placeholder="copy and paste url"
 					required
 				/>
-				<button onClick={this.addNewTab}>Add tab</button>
+				<Fab
+					color="primary"
+					aria-label="Add"
+					onClick={this.addNewTab}
+					className={classes.fab}>
+					<AddIcon />
+				</Fab>
 			</div>
 		);
 	}
 }
 const mapStateToProps = state => {
 	return {
-		tabs: state.tabs,
+		tabs: state.tabsReducer.tabs,
 	};
 };
 
 export default connect(
 	mapStateToProps,
 	{ addTab },
-)(TabsInput);
+)(withStyles(styles)(TabsInput));

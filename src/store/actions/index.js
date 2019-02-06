@@ -1,10 +1,17 @@
 export const ADD_TAB = 'ADD_TAB';
+export const REMOVE_TAB = 'REMOVE_TAB';
 export const ADD_USER = 'ADD_USER';
 
 export const addTab = tab => {
 	return {
 		type: ADD_TAB,
 		payload: tab,
+	};
+};
+export const removeTab = tabID => {
+	return {
+		type: REMOVE_TAB,
+		payload: tabID,
 	};
 };
 

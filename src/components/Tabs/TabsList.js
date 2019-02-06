@@ -1,7 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import { addTab } from '../../store/actions';
 import Tab from './Tab';
 
 const TabsList = props => {
@@ -12,13 +10,4 @@ const TabsList = props => {
 	);
 };
 
-const mapStateToProps = state => {
-	return {
-		tabs: state.tabsReducer.tabs,
-	};
-};
-
-export default connect(
-	mapStateToProps,
-	{ addTab },
-)(TabsList);
+export default TabsList;
