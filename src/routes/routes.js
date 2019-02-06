@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Auth from '../hoc/Auth';
+// import Auth from '../hoc/Auth';
 
 import '../styles/css/index.css';
 
@@ -22,36 +22,27 @@ class Routes extends Component {
 		});
 	}
 	render() {
-		// 	let routes = (
-		// 		<Switch>
-		// 			<Redirect from="/" exact to="/login" />
-		// 			<Route path="/login" component={Login} />
-		// 			<Route path="/register" component={Register} />
-		// 			<Redirect to="/login" />
-		// 		</Switch>
-		// 	);
-
-		// 	if (this.props.isLoggedIn) {
-		// 		routes = (
-		// 			<Switch>
-		// 				<Redirect from="login" to="/" />
-		// 				<Redirect from="register" to="/" />
-		// 				<Route path="/user/logout" component={Logout} />
-		// 				<Route path="/" component={Home} />
-		// 				<Redirect to="/" />
-		// 			</Switch>
-		// 		);
-		// 	}
-		// 	return <Layout showProtectedLinks={this.props.isLoggedIn}>{routes}</Layout>;
-		// }
-		return (
+		let routes = (
 			<Switch>
-				<Route path="/login" render={Login} />
-				<Route path="/register" render={Register} />
-				<Route path="/logout" render={Logout} />
-				<Route path="/" exact render={Home} />
+				<Redirect from="/" exact to="/login" />
+				<Route path="/login" component={Login} />
+				<Route path="/register" component={Register} />
+				<Redirect to="/login" />
 			</Switch>
 		);
+
+		if (this.props.isLoggedIn) {
+			routes = (
+				<Switch>
+					<Redirect from="login" to="/" />
+					<Redirect from="register" to="/" />
+					<Route path="/user/logout" component={Logout} />
+					<Route path="/" component={Home} />
+					<Redirect to="/" />
+				</Switch>
+			);
+		}
+		return <Layout showProtectedLinks={this.props.isLoggedIn}>{routes}</Layout>;
 	}
 }
 

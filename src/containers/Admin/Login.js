@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { addUser, loginUser } from '../../store/actions';
-import Auth from '../../hoc/Auth';
+// import Auth from '../../hoc/Auth';
 
 class Login extends Component {
 	state = {
