@@ -1,45 +1,92 @@
 import React, { Component } from 'react';
-import { auth } from '../store/actions';
-import { connect } from 'react-redux';
+import { Redirect, withRouter } from 'react-router-dom';
 
-export default function(WrappedComponent, reload) {
-	class Auth extends Component {
-		state = {
-			loading: false,
-		};
+const Auth = WrappedComponent =>
+	class extends Component {
+		constructor() {
+			super();
 
-		componentWillMount() {
-			this.props.auth();
+			this.state = {
+				loggedIn: null,
+			};
 		}
 
-		componentWillReceiveProps(nextProps) {
-			this.setState({ loading: false });
-
-			if (!nextProps.currentUser) {
-				if (reload) {
-					this.props.history.push('/login');
-				}
+		componentDidMount() {
+			if (localStorage.getItem('user')) {
+				this.setState({
+					loggedIn: true,
+				});
 			} else {
-				if (reload === false) {
-					this.props.history.push('/');
-				}
+				this.setState({
+					loggedIn: false,
+				});
 			}
 		}
-		render() {
-			if (this.state.loading) {
-				return <div>Loading...</div>;
+
+		authenticateUser = () => {
+			if (this.state.loggedIn === false) {
+				return <Redirect to="/" />;
+			} else {
+				return <WrappedComponent />;
 			}
-			return <WrappedComponent {...this.props} users={this.props.users} />;
-		}
-	}
-	const mapStateToProps = state => {
-		return {
-			users: state.userReducer.users,
-			currentUser: state.userReducer.currentUsers,
 		};
+
+		render() {
+			return this.authenticateUser();
+		}
 	};
-	return connect(
-		mapStateToProps,
-		{ auth },
-	)(Auth);
-}
+
+export default withRouter(Auth);
+
+// export function requireAuthentication(Component) {
+
+// 	class AuthenticatedComponent extends React.Component {
+
+// 			componentWillMount() {
+// 					this.checkAuth();
+// 			}
+
+// 			componentWillReceiveProps(nextProps) {
+// 					this.checkAuth();
+// 			}
+
+// 			checkAuth() {
+// 					if (!this.props.isAuthenticated) {
+// 							let redirectAfterLogin = this.props.location.pathname;
+// 							this.props.dispatch(pushState(null, `/login?next=${redirectAfterLogin}`));
+// 					}
+// 			}
+
+// 			render() {
+// 					return (
+// 							<div>
+// 									{this.props.isAuthenticated === true
+// 											? <Component {...this.props}/>
+// 											: null
+// 									}
+// 							</div>
+// 					)
+
+// 			}
+// 	}
+
+// 	const mapStateToProps = (state) => ({
+// 			token: state.auth.token,
+// 			userName: state.auth.userName,
+// 			isAuthenticated: state.auth.isAuthenticated
+// 	});
+
+// 	return connect(mapStateToProps)(AuthenticatedComponent);
+
+// }
+
+// import {HomeView, LoginView, ProtectedView} from '../views';
+// import {requireAuthentication} from '../components/AuthenticatedComponent';
+
+// export default(
+//     <Route path='/' component={App}>
+//         <IndexRoute component={HomeView}/>
+//         <Route path="login" component={LoginView}/>
+//         <Route path="protected" component={requireAuthentication(ProtectedView)}/>
+//     </Route>
+// );

@@ -1,7 +1,7 @@
 const initialState = {
 	users: [
 		{
-			isAuth: true,
+			inLoggedIn: false,
 			id: 1,
 			first_name: 'Ynez',
 			last_name: 'Ranahan',
@@ -12,7 +12,7 @@ const initialState = {
 			tabs: [],
 		},
 		{
-			isAuth: true,
+			inLoggedIn: false,
 			id: 2,
 			first_name: 'Becky',
 			last_name: 'Scanterbury',
@@ -23,7 +23,7 @@ const initialState = {
 			tabs: [],
 		},
 		{
-			isAuth: true,
+			inLoggedIn: false,
 			id: 3,
 			first_name: 'Cordy',
 			last_name: 'Earie',
@@ -34,7 +34,7 @@ const initialState = {
 			tabs: [],
 		},
 		{
-			isAuth: true,
+			inLoggedIn: false,
 			id: 4,
 			first_name: 'Bink',
 			last_name: 'Aston',
@@ -45,7 +45,7 @@ const initialState = {
 			tabs: [],
 		},
 		{
-			isAuth: true,
+			inLoggedIn: false,
 			id: 5,
 			first_name: 'Frederick',
 			last_name: "O' Faherty",
@@ -56,7 +56,7 @@ const initialState = {
 			tabs: [],
 		},
 		{
-			isAuth: true,
+			inLoggedIn: false,
 			id: 6,
 			first_name: 'Kellie',
 			last_name: 'Mummery',
@@ -67,7 +67,7 @@ const initialState = {
 			tabs: [],
 		},
 		{
-			isAuth: true,
+			inLoggedIn: false,
 			id: 7,
 			first_name: 'Vachel',
 			last_name: 'MacTeague',
@@ -78,7 +78,7 @@ const initialState = {
 			tabs: [],
 		},
 		{
-			isAuth: true,
+			inLoggedIn: false,
 			id: 8,
 			first_name: 'Minda',
 			last_name: 'Baden',
@@ -89,7 +89,7 @@ const initialState = {
 			tabs: [],
 		},
 		{
-			isAuth: true,
+			inLoggedIn: false,
 			id: 9,
 			first_name: 'Maximilianus',
 			last_name: 'Gercken',
@@ -100,7 +100,7 @@ const initialState = {
 			tabs: [],
 		},
 		{
-			isAuth: true,
+			inLoggedIn: false,
 			id: 10,
 			first_name: 'Martynne',
 			last_name: 'Tuminelli',
@@ -120,8 +120,10 @@ const userReducer = (state = initialState, action) => {
 		case 'USER_LOGIN':
 			return { ...state, currentUser: action.payload, isLoggedIn: true };
 		case 'USER_AUTH':
-			console.log('reducer', action.payload);
 			return { ...state, currentUser: action.payload };
+		case 'USER_LOGOUT':
+			localStorage.removeItem(state.currentUser);
+			return { ...state, currentUser: null, isLoggedIn: false };
 		case 'USER_REGISTER':
 			return {
 				...state,

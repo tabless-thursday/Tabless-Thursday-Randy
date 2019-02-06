@@ -25,14 +25,6 @@ export const loginUser = stats => {
 	};
 };
 
-export const auth = () => {
-	const currentUser = localStorage.getItem('user');
-	return {
-		type: 'USER_AUTH',
-		payload: currentUser,
-	};
-};
-
 export const userRegister = userStats => {
 	return {
 		type: 'USER_REGISTER',

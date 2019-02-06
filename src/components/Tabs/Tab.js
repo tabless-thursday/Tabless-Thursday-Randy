@@ -1,13 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+import DeleteIcon from '@material-ui/icons/Delete';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import { removeTab } from '../../store/actions';
 
 const styles = theme => ({
 	bigAvatar: {
@@ -34,12 +38,16 @@ const styles = theme => ({
 class Tab extends React.Component {
 	state = {
 		expanded: null,
+		currentTab: '',
 	};
 
 	handleChange = panel => (event, expanded) => {
 		this.setState({
 			expanded: expanded ? panel : false,
 		});
+	};
+	deleteTabs = id => {
+		this.props.removeTab(id);
 	};
 
 	render() {
@@ -52,10 +60,20 @@ class Tab extends React.Component {
 					expanded={expanded === 'panel1'}
 					onChange={this.handleChange('panel1')}>
 					<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-						<Avatar alt="" src="" className={classes.bigAvatar} />
-						{this.props.tab.title}
+						<div style={{ display: 'flex', alignItems: 'center' }}>
+							<Avatar alt="" src="" className={classes.bigAvatar} />
+							{this.props.tab.title}
+						</div>
 					</ExpansionPanelSummary>
 					<ExpansionPanelDetails>
+						<div onClick={() => this.deleteTabs}>
+							<Fab
+								aria-label="Delete"
+								className={classes.fab}
+								style={{ display: 'flex', alignItems: 'center' }}>
+								<DeleteIcon />
+							</Fab>
+						</div>
 						<Typography />
 					</ExpansionPanelDetails>
 				</ExpansionPanel>
@@ -63,11 +81,15 @@ class Tab extends React.Component {
 		);
 	}
 }
-
-Tab.propTypes = {
-	classes: PropTypes.object.isRequired,
+const mapStateToProps = state => {
+	return {
+		tabs: state.tabsReducer.tabs,
+	};
 };
 
-export default withStyles(styles)(Tab);
+export default connect(
+	mapStateToProps,
+	{ removeTab },
+)(withStyles(styles)(Tab));
 
 // to get the favicon document.querySelector('link').href

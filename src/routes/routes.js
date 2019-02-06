@@ -1,30 +1,64 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Auth from '../hoc/Auth';
 
 import '../styles/css/index.css';
 
 import Layout from '../hoc/Layout';
 import Home from '../components/Home/home';
-import TabsList from '../components/Tabs/TabsList';
+
 import Login from '../containers/Admin/Login';
 import Register from '../containers/Admin/Register';
 import Logout from '../containers/Admin/Logout';
-import TabsInput from '../components/Tabs/TabsInput';
-import Auth from '../Auth';
 
-const Routes = () => {
-	return (
-		<Layout>
+class Routes extends Component {
+	state = {
+		isLoggedIn: null,
+	};
+	componentwillMount() {
+		this.setState({
+			isLoggedIn: this.props.isLoggedIn,
+		});
+	}
+	render() {
+		// 	let routes = (
+		// 		<Switch>
+		// 			<Redirect from="/" exact to="/login" />
+		// 			<Route path="/login" component={Login} />
+		// 			<Route path="/register" component={Register} />
+		// 			<Redirect to="/login" />
+		// 		</Switch>
+		// 	);
+
+		// 	if (this.props.isLoggedIn) {
+		// 		routes = (
+		// 			<Switch>
+		// 				<Redirect from="login" to="/" />
+		// 				<Redirect from="register" to="/" />
+		// 				<Route path="/user/logout" component={Logout} />
+		// 				<Route path="/" component={Home} />
+		// 				<Redirect to="/" />
+		// 			</Switch>
+		// 		);
+		// 	}
+		// 	return <Layout showProtectedLinks={this.props.isLoggedIn}>{routes}</Layout>;
+		// }
+		return (
 			<Switch>
-				<Route path="/" exact component={Auth(Home, null)} />
-				<Route path="/login" exact component={Auth(Login, false)} />
-				<Route path="/user/logout" exact component={Auth(Logout, true)} />
-				<Route path="/user/tabslist" exact component={Auth(TabsList, true)} />
-				<Route path="/user/addtab" exact component={Auth(TabsInput, true)} />
-				<Route path="/user/register" exact component={Auth(Register, true)} />
+				<Route path="/login" render={Login} />
+				<Route path="/register" render={Register} />
+				<Route path="/logout" render={Logout} />
+				<Route path="/" exact render={Home} />
 			</Switch>
-		</Layout>
-	);
+		);
+	}
+}
+
+const mapStateToProps = state => {
+	return {
+		isLoggedIn: state.userReducer.isLoggedIn,
+	};
 };
 
-export default Routes;
+export default withRouter(connect(mapStateToProps)(Routes));

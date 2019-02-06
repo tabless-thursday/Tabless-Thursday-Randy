@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Auth from '../../Auth';
 import { addUser, loginUser } from '../../store/actions';
+import Auth from '../../hoc/Auth';
 
 class Login extends Component {
 	state = {
 		username: '',
 		password: '',
 		error: '',
-		success: false,
+		isLoggedIn: true,
 		enterCredentials: null,
 	};
 
@@ -63,5 +63,5 @@ export default withRouter(
 	connect(
 		mapStateToProps,
 		{ addUser, loginUser },
-	)(Auth(Login)),
+	)(Login),
 );

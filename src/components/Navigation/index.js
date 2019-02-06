@@ -25,18 +25,24 @@ const Navigation = props => {
 	const { classes } = props;
 	return (
 		<div className={classes.root}>
-			<AppBar position="static">
+			<AppBar position="sticky" style={{ marginBottom: '20px' }}>
 				<Toolbar>
 					<IconButton
 						className={classes.menuButton}
 						color="inherit"
 						aria-label="Menu">
-						<MenuIcon />
+						<MenuIcon style={{ fontSize: '30px' }} />
 					</IconButton>
-					<Typography variant="h6" color="inherit" className={classes.grow}>
+					<Typography
+						variant="h6"
+						color="inherit"
+						className={classes.grow}
+						style={{ fontSize: '30px' }}>
 						Tabless-Thursday
 					</Typography>
-					<Button color="inherit">Login</Button>
+					<Button style={{ fontSize: '15px' }} color="inherit">
+						Login
+					</Button>
 				</Toolbar>
 			</AppBar>
 		</div>
