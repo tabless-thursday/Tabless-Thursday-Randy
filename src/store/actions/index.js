@@ -19,6 +19,7 @@ export const removeTab = tabID => {
 
 export const loginUser = stats => {
 	localStorage.setItem('user', stats.username);
+	localStorage.setItem('isLoggedIn', stats.isLoggedIn);
 	return {
 		type: 'USER_LOGIN',
 		payload: stats,

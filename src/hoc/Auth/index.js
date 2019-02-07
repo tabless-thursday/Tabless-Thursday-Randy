@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 
-const Auth = WrappedComponent =>
+const Auth = component =>
 	class extends Component {
 		constructor() {
 			super();
@@ -23,16 +23,24 @@ const Auth = WrappedComponent =>
 			}
 		}
 
-		authenticateUser = () => {
-			if (this.state.loggedIn === false) {
-				return <Redirect to="/" />;
-			} else {
-				return <WrappedComponent />;
-			}
-		};
+		// authenticateUser = () => {
+		// 	if (this.state.loggedIn === false) {
+		// 		return this.props.history.push('/');
+		// 	} else {
+		// 		return <div>{props.children}</div>;
+		// 	}
+		// };
 
 		render() {
-			return this.authenticateUser();
+			return (
+				<div>
+					{this.state.loggedIn === true ? (
+						<component {...this.props} />
+					) : (
+						<component />
+					)}
+				</div>
+			);
 		}
 	};
 

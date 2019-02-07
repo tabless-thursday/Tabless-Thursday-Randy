@@ -165,15 +165,12 @@ img {
   }
 }
 .login-page {
-  padding: 15% 0;
-  height: 100vh;
   display: flex;
   justify-content: center;
 }
 .login-page form {
   height: 280px;
   width: 400px;
-  border: 1px solid blue;
   display: flex;
   flex-direction: column;
 }

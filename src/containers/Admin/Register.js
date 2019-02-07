@@ -1,42 +1,90 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { userRegister } from '../../store/actions';
+import { withRouter } from 'react-router';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
+import { userRegister, loginUser } from '../../store/actions';
+
+const styles = theme => ({
+	container: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		fontSize: '20px',
+	},
+	button: {
+		margin: theme.spacing.unit,
+	},
+	textField: {
+		width: 200,
+	},
+});
 
 class Register extends PureComponent {
 	state = {
-		isAuth: false,
-		first_name: '',
-		last_name: '',
-		email: '',
-		phone: '',
-		password: '',
-		username: '',
+		user: {
+			first_name: '',
+			last_name: '',
+			email: '',
+			phone: '',
+			password: '',
+			username: '',
+		},
+		errorMSG: 'Register',
 	};
 
 	handleInputChange = event => {
 		this.setState({ [event.target.name]: event.target.value });
 	};
 
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.user === false) {
-			this.setState({ error: 'Error,try again' });
-		} else {
-			this.setState({
-				first_name: '',
-				last_name: '',
-				email: '',
-				phone: '',
-				password: '',
-				username: '',
-			});
-		}
-	}
+	// componentWillReceiveProps(nextProps) {
+	// 	if (nextProps.user === false) {
+	// 		this.setState({ errorMSG: 'Error,try again' });
+	// 	} else {
+	// 		this.setState({
+	// 			user: {
+	// 				first_name: '',
+	// 				last_name: '',
+	// 				email: '',
+	// 				phone: '',
+	// 				password: '',
+	// 				username: '',
+	// 			},
+	// 			errorMSG: 'Register',
+	// 		});
+	// 	}
+	// }
 
 	submitForm = event => {
 		event.preventDefault();
-		this.setState({ error: '' });
-
-		this.props.dispatch(userRegister(this.state));
+		const newUser = {
+			first_name: this.state.user.first_name,
+			last_name: this.state.user.last_name,
+			email: this.state.user.email,
+			password: this.state.user.password,
+			username: this.state.user.username,
+		};
+		if (!this.state.password) {
+			this.setState({
+				errorMSG: 'You must enter a password to continue.',
+			});
+		} else {
+			this.props.dispatch(userRegister(newUser));
+			this.props.dispatch(loginUser(newUser));
+			this.setState({
+				user: {
+					first_name: this.state.user.first_name,
+					last_name: this.state.user.last_name,
+					email: this.state.user.email,
+					password: this.state.user.password,
+					username: this.state.user.username,
+				},
+				errorMSG: 'Register',
+			});
+			this.props.history.push('/');
+		}
 	};
 
 	showUsers = users =>
@@ -51,94 +99,93 @@ class Register extends PureComponent {
 			: null;
 
 	render() {
+		const { classes } = this.props;
 		return (
-			<div>
-				<form onSubmit={this.submitForm}>
-					<h2>Add user</h2>
+			<form
+				className={classes.container}
+				noValidate
+				autoComplete="off"
+				onSubmit={this.submitForm}>
+				<h2>{this.state.errorMSG}</h2>
 
-					<div>
-						<input
-							name="first_name"
-							type="text"
-							placeholder="Enter First Name"
-							value={this.state.first_name}
-							onChange={this.handleInputChange}
-						/>
-					</div>
+				<TextField
+					required
+					label="First Name"
+					name="first_name"
+					className={classes.textField}
+					value={this.state.first_name}
+					onChange={this.handleInputChange}
+					type="text"
+				/>
 
-					<div>
-						<input
-							name="last_name"
-							type="text"
-							placeholder="Enter Last Name"
-							value={this.state.last_name}
-							onChange={this.handleInputChange}
-						/>
-					</div>
+				<TextField
+					required
+					label="Last Name"
+					name="last_name"
+					className={classes.textField}
+					value={this.state.last_name}
+					onChange={this.handleInputChange}
+					type="text"
+				/>
 
-					<div>
-						<input
-							name="email"
-							type="email"
-							placeholder="Enter Email"
-							value={this.state.email}
-							onChange={this.handleInputChange}
-						/>
-					</div>
+				<TextField
+					required
+					label="Email"
+					name="email"
+					className={classes.textField}
+					value={this.state.email}
+					onChange={this.handleInputChange}
+					type="text"
+				/>
 
-					<div>
-						<input
-							name="password"
-							type="password"
-							placeholder="Enter Password"
-							value={this.state.password}
-							onChange={this.handleInputChange}
-						/>
-					</div>
-					<div>
-						<input
-							name="phone"
-							type="phone"
-							placeholder="Enter Phone Number"
-							value={this.state.phone}
-							onChange={this.handleInputChange}
-						/>
-					</div>
+				<TextField
+					required
+					label="Password"
+					name="password"
+					className={classes.textField}
+					value={this.state.password}
+					onChange={this.handleInputChange}
+					type="text"
+				/>
 
-					<div>
-						<input
-							name="username"
-							type="text"
-							placeholder="Choose a username"
-							value={this.state.username}
-							onChange={this.handleInputChange}
-						/>
-					</div>
+				<TextField
+					required
+					label="Phone Number"
+					name="phone"
+					className={classes.textField}
+					value={this.state.phone}
+					onChange={this.handleInputChange}
+					type="number"
+				/>
 
-					<button type="submit">Add user</button>
-					<div>{this.state.error}</div>
-				</form>
-				<div>
-					<h4>Current users:</h4>
-					<table>
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Lastname</th>
-								<th>Email</th>
-							</tr>
-						</thead>
-						<tbody>{this.showUsers(this.props.users)}</tbody>
-					</table>
-				</div>
-			</div>
+				<TextField
+					required
+					label="Username"
+					name="username"
+					className={classes.textField}
+					value={this.state.username}
+					onChange={this.handleInputChange}
+					type="text"
+				/>
+
+				<Button
+					size="large"
+					type="submit"
+					variant="contained"
+					color="primary"
+					className={classes.button}>
+					Register
+				</Button>
+			</form>
 		);
 	}
 }
 const mapStateToProps = state => {
 	return {
-		user: state.userReducer.user,
+		users: state.userReducer.users,
 	};
 };
 
-export default connect(mapStateToProps)(Register);
+export default withRouter(
+	connect(mapStateToProps)(withStyles(styles)(Register)),
+);

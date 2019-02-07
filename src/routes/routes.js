@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import Auth from '../hoc/Auth';
+import auth from '../hoc/Auth';
 
 import '../styles/css/index.css';
 
@@ -34,11 +34,10 @@ class Routes extends Component {
 		if (this.props.isLoggedIn) {
 			routes = (
 				<Switch>
-					<Redirect from="login" to="/" />
-					<Redirect from="register" to="/" />
+					{/* <Redirect from="login" to="/" /> */}
+					{/* <Redirect from="register" to="/" /> */}
 					<Route path="/user/logout" component={Logout} />
 					<Route path="/" component={Home} />
-					<Redirect to="/" />
 				</Switch>
 			);
 		}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -23,6 +24,10 @@ const styles = {
 
 const Navigation = props => {
 	const { classes } = props;
+
+	const sendToLogin = () => {
+		props.history.push('/login');
+	};
 	return (
 		<div className={classes.root}>
 			<AppBar position="sticky" style={{ marginBottom: '20px' }}>
@@ -40,7 +45,10 @@ const Navigation = props => {
 						style={{ fontSize: '30px' }}>
 						Tabless-Thursday
 					</Typography>
-					<Button style={{ fontSize: '15px' }} color="inherit">
+					<Button
+						onClick={sendToLogin}
+						style={{ fontSize: '15px' }}
+						color="inherit">
 						Login
 					</Button>
 				</Toolbar>
@@ -49,4 +57,4 @@ const Navigation = props => {
 	);
 };
 
-export default withStyles(styles)(Navigation);
+export default withRouter(withStyles(styles)(Navigation));

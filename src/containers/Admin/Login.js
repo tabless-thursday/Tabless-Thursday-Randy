@@ -8,9 +8,8 @@ class Login extends Component {
 	state = {
 		username: '',
 		password: '',
-		error: '',
 		isLoggedIn: true,
-		enterCredentials: null,
+		error: '',
 	};
 
 	handleChanges = event => {
@@ -19,8 +18,19 @@ class Login extends Component {
 
 	submitForm = event => {
 		event.preventDefault();
-		this.props.loginUser(this.state);
-		this.props.history.push('/');
+		const loggedInUser = {
+			username: this.state.username,
+			password: this.state.password,
+			isLoggedIn: this.state.isLoggedIn,
+		};
+		if (!this.state.password) {
+			this.setState({
+				error: 'You must enter a password to continue.',
+			});
+		} else {
+			this.props.loginUser(loggedInUser);
+			this.props.history.push('/');
+		}
 	};
 
 	render() {
@@ -35,7 +45,7 @@ class Login extends Component {
 						value={this.state.username}
 						onChange={this.handleChanges}
 					/>
-					<span>{this.state.enterCredentials}</span>
+					<span>{this.state.error}</span>
 					<input
 						type="text"
 						name="password"
