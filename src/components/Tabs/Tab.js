@@ -42,6 +42,7 @@ class Tab extends React.Component {
 	};
 
 	handleChange = panel => (event, expanded) => {
+		console.log(event.target);
 		this.setState({
 			expanded: expanded ? panel : false,
 		});
@@ -62,11 +63,11 @@ class Tab extends React.Component {
 					<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 						<div style={{ display: 'flex', alignItems: 'center' }}>
 							<Avatar alt="" src="" className={classes.bigAvatar} />
-							{this.props.tab.title}
+							{this.props.tab.url}
 						</div>
 					</ExpansionPanelSummary>
 					<ExpansionPanelDetails>
-						<div onClick={() => this.deleteTabs}>
+						<div onClick={() => this.deleteTabs(this.props.tab.id)}>
 							<Fab
 								aria-label="Delete"
 								className={classes.fab}

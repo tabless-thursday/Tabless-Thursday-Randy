@@ -28,6 +28,9 @@ const Navigation = props => {
 	const sendToLogin = () => {
 		props.history.push('/login');
 	};
+	const sendToRegisterForm = () => {
+		props.history.push('/register');
+	};
 	return (
 		<div className={classes.root}>
 			<AppBar position="sticky" style={{ marginBottom: '20px' }}>
@@ -50,6 +53,12 @@ const Navigation = props => {
 						style={{ fontSize: '15px' }}
 						color="inherit">
 						Login
+					</Button>
+					<Button
+						onClick={sendToRegisterForm}
+						style={{ fontSize: '15px' }}
+						color="inherit">
+						Register
 					</Button>
 				</Toolbar>
 			</AppBar>

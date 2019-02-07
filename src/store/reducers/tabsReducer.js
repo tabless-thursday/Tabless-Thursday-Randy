@@ -6,28 +6,28 @@ const initialState = {
 		{
 			createdOn: '',
 			id: '0',
-			url: '',
+			url: 'abcs.com',
 			title: 'Fist tab',
 			img: '',
 		},
 		{
 			id: '1',
 			createdOn: '',
-			url: '',
+			url: 'idsdasf.com',
 			title: 'second tab',
 			img: '',
 		},
 		{
 			id: '2',
 			createdOn: '',
-			url: '',
+			url: 'sdffadna.com',
 			title: 'third tab',
 			img: '',
 		},
 		{
 			id: '3',
 			createdOn: '',
-			url: '',
+			url: 'fsfdsk.com',
 			title: 'Fourth tab',
 			img: '',
 		},
@@ -44,9 +44,7 @@ const tabsReducer = (state = initialState, action) => {
 		case REMOVE_TAB:
 			return {
 				...state,
-				tabs: state.tabs.map(tab => {
-					return tab.id !== action.payload;
-				}),
+				tabs: state.tabs.filter(tab => tab.id !== action.payload),
 			};
 
 		default:
