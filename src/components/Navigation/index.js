@@ -6,8 +6,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 
 const styles = {
 	root: {
@@ -31,23 +29,22 @@ const Navigation = props => {
 	const sendToRegisterForm = () => {
 		props.history.push('/register');
 	};
-	return (
-		<div className={classes.root}>
-			<AppBar position="sticky" style={{ marginBottom: '20px' }}>
-				<Toolbar>
-					<IconButton
-						className={classes.menuButton}
-						color="inherit"
-						aria-label="Menu">
-						<MenuIcon style={{ fontSize: '30px' }} />
-					</IconButton>
-					<Typography
-						variant="h6"
-						color="inherit"
-						className={classes.grow}
-						style={{ fontSize: '30px' }}>
-						Tabless-Thursday
-					</Typography>
+	const sendToLogout = () => {
+		props.history.push('/logout');
+	};
+	const renderNavBtn = () => {
+		if (localStorage.getItem('user')) {
+			return (
+				<Button
+					onClick={sendToLogout}
+					style={{ fontSize: '15px' }}
+					color="inherit">
+					Logout
+				</Button>
+			);
+		} else {
+			return (
+				<div>
 					<Button
 						onClick={sendToLogin}
 						style={{ fontSize: '15px' }}
@@ -60,6 +57,40 @@ const Navigation = props => {
 						color="inherit">
 						Register
 					</Button>
+				</div>
+			);
+		}
+	};
+	return (
+		<div className={classes.root}>
+			<AppBar position="sticky" style={{ marginBottom: '20px' }}>
+				<Toolbar>
+					<Typography
+						variant="h6"
+						color="inherit"
+						className={classes.grow}
+						style={{ fontSize: '30px' }}>
+						Tabless-Thursday
+					</Typography>
+					{/* <Button
+						onClick={sendToLogin}
+						style={{ fontSize: '15px' }}
+						color="inherit">
+						Login
+					</Button>
+					<Button
+						onClick={sendToLogout}
+						style={{ fontSize: '15px' }}
+						color="inherit">
+						Logout
+					</Button>
+					<Button
+						onClick={sendToRegisterForm}
+						style={{ fontSize: '15px' }}
+						color="inherit">
+						Register
+					</Button> */}
+					{renderNavBtn()}
 				</Toolbar>
 			</AppBar>
 		</div>

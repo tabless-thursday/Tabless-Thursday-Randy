@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
@@ -22,16 +22,15 @@ const styles = theme => ({
 	},
 });
 
-class Register extends PureComponent {
+class Register extends Component {
 	state = {
-		user: {
-			first_name: '',
-			last_name: '',
-			email: '',
-			phone: '',
-			password: '',
-			username: '',
-		},
+		first_name: '',
+		last_name: '',
+		email: '',
+		phone: '',
+		password: '',
+		username: '',
+
 		errorMSG: 'Register',
 	};
 
@@ -39,65 +38,43 @@ class Register extends PureComponent {
 		this.setState({ [event.target.name]: event.target.value });
 	};
 
-	// componentWillReceiveProps(nextProps) {
-	// 	if (nextProps.user === false) {
-	// 		this.setState({ errorMSG: 'Error,try again' });
-	// 	} else {
-	// 		this.setState({
-	// 			user: {
-	// 				first_name: '',
-	// 				last_name: '',
-	// 				email: '',
-	// 				phone: '',
-	// 				password: '',
-	// 				username: '',
-	// 			},
-	// 			errorMSG: 'Register',
-	// 		});
-	// 	}
-	// }
-
 	submitForm = event => {
 		event.preventDefault();
-		const newUser = {
-			first_name: this.state.user.first_name,
-			last_name: this.state.user.last_name,
-			email: this.state.user.email,
-			password: this.state.user.password,
-			username: this.state.user.username,
+		let newUser = {
+			first_name: this.state.first_name,
+			last_name: this.state.last_name,
+			email: this.state.email,
+			password: this.state.password,
+			username: this.state.username,
 		};
 		if (!this.state.password) {
 			this.setState({
 				errorMSG: 'You must enter a password to continue.',
 			});
 		} else {
-			this.props.dispatch(userRegister(newUser));
-			this.props.dispatch(loginUser(newUser));
 			this.setState({
-				user: {
-					first_name: this.state.user.first_name,
-					last_name: this.state.user.last_name,
-					email: this.state.user.email,
-					password: this.state.user.password,
-					username: this.state.user.username,
-				},
+				first_name: this.state.first_name,
+				last_name: this.state.last_name,
+				email: this.state.email,
+				password: this.state.password,
+				username: this.state.username,
+
 				errorMSG: 'Register',
 			});
+
+			newUser = {
+				first_name: this.state.first_name,
+				last_name: this.state.last_name,
+				email: this.state.email,
+				password: this.state.password,
+				username: this.state.username,
+			};
+
+			this.props.dispatch(userRegister(newUser));
+			this.props.dispatch(loginUser(newUser));
 			this.props.history.push('/');
 		}
 	};
-
-	showUsers = users =>
-		users
-			? users.map(item => (
-					<tr key={item.id}>
-						<td>{item.first_name}</td>
-						<td>{item.last_name}</td>
-						<td>{item.email}</td>
-					</tr>
-			  ))
-			: null;
-
 	render() {
 		const { classes } = this.props;
 		return (

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { addUser, loginUser } from '../../store/actions';
+import { loginUser } from '../../store/actions';
 // import Auth from '../../hoc/Auth';
 
 class Login extends Component {
@@ -29,7 +29,9 @@ class Login extends Component {
 			});
 		} else {
 			this.props.loginUser(loggedInUser);
-			this.props.history.push('/');
+			setTimeout(() => {
+				this.props.history.push('/login');
+			}, 1000);
 		}
 	};
 
@@ -72,6 +74,6 @@ const mapStateToProps = state => {
 export default withRouter(
 	connect(
 		mapStateToProps,
-		{ addUser, loginUser },
+		{ loginUser },
 	)(Login),
 );

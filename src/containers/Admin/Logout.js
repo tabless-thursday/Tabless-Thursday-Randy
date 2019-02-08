@@ -1,12 +1,14 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { logoutUser } from '../../store/actions';
 
 const Logout = props => {
-	localStorage.removeItem('user', props.currentUser);
+	props.logoutUser(localStorage.getItem('user'));
 	setTimeout(() => {
-		props.history.push('/');
-	}, 2000);
+		props.history.push('/login');
+	}, 1000);
+
 	return (
 		<div>
 			<h1>Sorry to see you go :(</h1>
@@ -19,4 +21,9 @@ const mapStateToProps = state => {
 	};
 };
 
-export default withRouter(connect(mapStateToProps)(Logout));
+export default withRouter(
+	connect(
+		mapStateToProps,
+		{ logoutUser },
+	)(Logout),
+);

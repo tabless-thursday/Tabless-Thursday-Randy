@@ -120,9 +120,8 @@ const userReducer = (state = initialState, action) => {
 		case 'USER_LOGIN':
 			return { ...state, currentUser: action.payload, isLoggedIn: true };
 		case 'USER_AUTH':
-			return { ...state, currentUser: action.payload };
+			return { ...state, currentUser: action.payload, isLoggedIn: true };
 		case 'USER_LOGOUT':
-			localStorage.removeItem(state.currentUser);
 			return { ...state, currentUser: null, isLoggedIn: false };
 		case 'USER_REGISTER':
 			return {
